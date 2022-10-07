@@ -2,21 +2,37 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"testing/iotest"
 
 	"github.com/joho/godotenv"
 	"github.com/julienschmidt/httprouter"
 )
 
 type RemoteAddr struct {
-	Ip string `json:"ip"`
+	LocalIP string `json:"local_ip"`
+	PublicIP string `json:"public_ip"`
 }
 
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	resp, err := http.Get("https://icanhazip.com/")
+    if err != nil {
+        fmt.Fprintf(w, "%s", err)
+    }
+    defer resp.Body.Close()
+    publicIP, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+		fmt.Fprintf(w, "%s", err)
+    }
+
 	ip := RemoteAddr{
-		Ip: r.RemoteAddr,
+		LocalIP: r.RemoteAddr,
+		PublicIP: string(publicIP),
 	}
 
 	js, err := json.Marshal(ip)
