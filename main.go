@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -32,5 +34,8 @@ func main() {
 	router := httprouter.New()
 	router.GET("/", Index)
 
-	log.Fatal(http.ListenAndServe(":", router))
+	godotenv.Load()
+	port := os.Getenv("PORT")
+
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
