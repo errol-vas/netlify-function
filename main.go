@@ -19,7 +19,7 @@ type RemoteAddr struct {
 
 func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
-	resp, err := http.Get("https://icanhazip.com/")
+	resp, err := http.Get("https://ifconfig.me/")
 	if err != nil {
 		fmt.Fprintf(w, "%s", err)
 	}
