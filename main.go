@@ -21,7 +21,7 @@ func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	if err != nil {
 		log.Println(err)
 	}
-
+	// set headers
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
